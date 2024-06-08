@@ -26,7 +26,6 @@ class LoginController extends Controller
      *
      * @var string
      */
-    // protected $redirectTo = '/home';
     protected function authenticated()
     {
         if (Auth::user()->role_as == '1') {

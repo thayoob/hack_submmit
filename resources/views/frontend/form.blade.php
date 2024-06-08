@@ -47,8 +47,23 @@
         }
     </style>
     <div class="container mt-5">
+
         <h1 class="mb-4">Student Data Collection Form</h1>
-        <form id="studentForm" action="" method="post">
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
+        @if ($errors->any())
+            <div class="alert alert-warning">
+                @foreach ($errors->all() as $error)
+                    <div>{{ $error }}</div>
+                @endforeach
+            </div>
+        @endif
+        <form id="studentForm" action="{{ url('/data') }}" method="post">
+            @csrf
             <div class="tab-content">
                 <!-- Demographic Information -->
                 <div class="tab-pane fade show active" id="demographic" role="tabpanel">
@@ -72,8 +87,8 @@
                             </select>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="Email">Email:</label>
-                            <input type="Email" class="form-control" id="Email" name="Email" required>
+                            <label for="email">Email:</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
                         </div>
                         <button type="button" class="btn btn-primary" onclick="nextTab('academic')">Next</button>
                     </fieldset>
@@ -107,8 +122,8 @@
                     <fieldset class="border p-4 mb-4">
                         <legend class="w-auto">Skills and Interests</legend>
                         <div class="form-group mb-3">
-                            <label for="extracurricular">Extracurricular Activities:</label>
-                            <textarea class="form-control" id="extracurricular" name="extracurricular" rows="3"></textarea>
+                            <label for="extracurricular_activities">Extracurricular Activities:</label>
+                            <textarea class="form-control" id="extracurricular_activities" name="extracurricular_activities" rows="3"></textarea>
                         </div>
                         <div class="form-group mb-3">
                             <label for="special_skills">Special Skills or Talents:</label>
@@ -124,8 +139,8 @@
                     <fieldset class="border p-4 mb-4">
                         <legend class="w-auto">Technological Proficiency</legend>
                         <div class="form-group mb-3">
-                            <label for="access_technology">Access to Technology:</label>
-                            <textarea class="form-control" id="access_technology" name="access_technology" rows="3"></textarea>
+                            <label for="access_to_technology">Access to Technology:</label>
+                            <textarea class="form-control" id="access_to_technology" name="access_to_technology" rows="3"></textarea>
                         </div>
                         <div class="form-group mb-3">
                             <label for="digital_literacy">Digital Literacy Skills:</label>
@@ -146,9 +161,10 @@
                             <textarea class="form-control" id="career_interests" name="career_interests" rows="3"></textarea>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="higher_education">Higher Education Plans:</label>
-                            <textarea class="form-control" id="higher_education" name="higher_education" rows="3"></textarea>
+                            <label for="higher_education_plans">Higher Education Plans:</label>
+                            <textarea class="form-control" id="higher_education_plans" name="higher_education_plans" rows="3"></textarea>
                         </div>
+
                         <!-- New question about interests as radio buttons -->
                         <div class="form-group mb-3">
                             <label for="interests">What are your interests?</label><br>
@@ -183,73 +199,73 @@
                         <legend class="w-auto">Mathematical Aptitude</legend>
                         <!-- Question 1 -->
                         <div class="form-group mb-3">
-                            <label for="question1">Question 1: What is 2 + 2?</label><br>
+                            <label for="aptitude_question_1">Question 1: What is 2 + 2?</label><br>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="question1" id="q1_option1"
-                                    value="4">
+                                <input class="form-check-input" type="radio" name="aptitude_question_1"
+                                    id="q1_option1" value="4">
                                 <label class="form-check-label" for="q1_option1">4</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="question1" id="q1_option2"
-                                    value="3">
+                                <input class="form-check-input" type="radio" name="aptitude_question_1"
+                                    id="q1_option2" value="3">
                                 <label class="form-check-label" for="q1_option2">3</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="question1" id="q1_option3"
-                                    value="5">
+                                <input class="form-check-input" type="radio" name="aptitude_question_1"
+                                    id="q1_option3" value="5">
                                 <label class="form-check-label" for="q1_option3">5</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="question1" id="q1_option4"
-                                    value="2">
+                                <input class="form-check-input" type="radio" name="aptitude_question_1"
+                                    id="q1_option4" value="2">
                                 <label class="form-check-label" for="q1_option4">2</label>
                             </div>
                         </div>
                         <!-- Question 2 -->
                         <div class="form-group mb-3">
-                            <label for="question2">Question 2: What is 6 multiplied by 4?</label><br>
+                            <label for="aptitude_question_2">Question 2: What is 6 multiplied by 4?</label><br>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="question2" id="q2_option1"
-                                    value="24">
+                                <input class="form-check-input" type="radio" name="aptitude_question_2"
+                                    id="q2_option1" value="24">
                                 <label class="form-check-label" for="q2_option1">24</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="question2" id="q2_option2"
-                                    value="30">
+                                <input class="form-check-input" type="radio" name="aptitude_question_2"
+                                    id="q2_option2" value="30">
                                 <label class="form-check-label" for="q2_option2">30</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="question2" id="q2_option3"
-                                    value="36">
+                                <input class="form-check-input" type="radio" name="aptitude_question_2"
+                                    id="q2_option3" value="36">
                                 <label class="form-check-label" for="q2_option3">36</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="question2" id="q2_option4"
-                                    value="40">
+                                <input class="form-check-input" type="radio" name="aptitude_question_2"
+                                    id="q2_option4" value="40">
                                 <label class="form-check-label" for="q2_option4">40</label>
                             </div>
                         </div>
                         <!-- Question 3 -->
                         <div class="form-group mb-3">
-                            <label for="question3">Question 3: What is 10 divided by 2?</label><br>
+                            <label for="aptitude_question_3">Question 3: What is 10 divided by 2?</label><br>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="question3" id="q3_option1"
-                                    value="3">
+                                <input class="form-check-input" type="radio" name="aptitude_question_3"
+                                    id="q3_option1" value="3">
                                 <label class="form-check-label" for="q3_option1">3</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="question3" id="q3_option2"
-                                    value="4">
+                                <input class="form-check-input" type="radio" name="aptitude_question_3"
+                                    id="q3_option2" value="4">
                                 <label class="form-check-label" for="q3_option2">4</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="question3" id="q3_option3"
-                                    value="5">
+                                <input class="form-check-input" type="radio" name="aptitude_question_3"
+                                    id="q3_option3" value="5">
                                 <label class="form-check-label" for="q3_option3">5</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="question3" id="q3_option4"
-                                    value="6">
+                                <input class="form-check-input" type="radio" name="aptitude_question_3"
+                                    id="q3_option4" value="6">
                                 <label class="form-check-label" for="q3_option4">6</label>
                             </div>
                         </div>
